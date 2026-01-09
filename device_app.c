@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "device_app.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     if (argc < 3) { // 포트 번호를 인자로 받기
         printf("Usage : %s ip port\n", argv[0]);
         return -1;

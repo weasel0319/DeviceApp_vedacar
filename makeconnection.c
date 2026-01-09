@@ -40,7 +40,7 @@ void makeConnection(rxData *rdata, char **arg){
         while (rdata->sd != -1) {
             sleep(1);
         }
-        // 통신 스레드 닫을 때 sd도 -1로 초기화 해줘야 함
+        // todo: 통신 스레드 닫을 때 sd도 -1로 초기화 해줘야 함
         // close(ssock); 이거는 나중에 스레드에서 종료될때 닫는게 나을듯.
     }                           
 }
