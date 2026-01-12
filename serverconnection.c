@@ -4,6 +4,8 @@
 #include <sys/socket.h>
 #include <errno.h>
 #include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
 
 #include "device_app.h"
 
@@ -63,6 +65,9 @@ void *server_connection(void *data) {
         case 1:
             while (save_size >= sizeof(recvPacket)) {    // id 확인 후 구조체 선정
                 recvPacket packet = *(recvPacket *)savebuf;
+                packet.size = ntohs(packet.size);
+                packet.CRC16 = ntohs(packet.CRC16);
+                
                 //memcpy(&packet.id, &savebuf[0], 1);
                 //memcpy(&packet.size, &savebuf[1], 2);
                 //memcpy(&packet.size, &savebuf[3], 2);  이렇게 짜려했는데 
@@ -90,7 +95,8 @@ void *server_connection(void *data) {
         }
     }
     // 만약에 사용자에서 종료 로직? 들어오면 fd랑 정리하는거 로직 짜야함
-
+    rdata->sd = -1; // 연결 종료를 알림
+    close(csock);
 }
 
 uint16_t calCRCCCITT(recvPacket *packet, int len){

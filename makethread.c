@@ -42,12 +42,13 @@ void* MotorControl(void *data) {    // 모터 제어 스레드
     int fd = rdata->mtfd;
     mtVal tmp = {0, 0};
     while (1) {
+        sem_wait(&rdata->semid);
         if (rdata->mtstate == 1){
-            sem_wait(&rdata->semid);
             tmp = rdata->mtval;
             rdata->mtstate = 0;
-            sem_post(&rdata->semid);
         }
+        sem_post(&rdata->semid);
+
         apply(fd, tmp);
         usleep(10000);
         // 나중에 뭐 서버로부터 종료 명령 들어오면 break 하게끔 구현할지도? 일단 정상 종료시 멈추게끔
