@@ -76,7 +76,7 @@ void *server_connection(void *data) {
 
                 save_size -= sizeof(recvPacket);
                 memmove(savebuf, savebuf + sizeof(recvPacket), save_size);
-                
+
                 // crc 체크해서 잘못된 패킷이면 continue
                 if (calCRCCCITT(&packet, sizeof(recvPacket)) == packet.CRC16) {
                     printf("CRC error");
@@ -92,10 +92,10 @@ void *server_connection(void *data) {
                 printf("packet CRC : %d\n", packet.CRC16);
 
                 mtVal mttemp = { packet.fb, packet.lr };
-                //sem_wait(&rdata->semid);
+                sem_wait(&rdata->semid);
                 rdata->mtval = mttemp;
                 rdata->mtstate = 1;
-                //sem_post(&rdata->semid);
+                sem_post(&rdata->semid);
                 printf("end\n");
             }
             break;

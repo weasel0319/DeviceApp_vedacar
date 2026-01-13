@@ -7,8 +7,7 @@
 #include <unistd.h>
 
 #include "device_app.h"
-// udp로 후에 바꿀 예정, 현 시점에서는 tcp로 구현
-
+// udp로 후에 바꿀 예정, 현 시점에서는 tcp로 구현, 시간 애매해서 tcp로 할수도
 void makeConnection(rxData *rdata, char **arg){
     int ssock;
     struct sockaddr_in servaddr;
@@ -40,7 +39,5 @@ void makeConnection(rxData *rdata, char **arg){
         while (rdata->sd != -1) {
             sleep(1);
         }
-        // todo: 통신 스레드 닫을 때 sd도 -1로 초기화 해줘야 함
-        // close(ssock); 이거는 나중에 스레드에서 종료될때 닫는게 나을듯.
     }                           
 }
