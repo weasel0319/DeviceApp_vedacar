@@ -25,7 +25,6 @@ void makeConnection(rxData *rdata, char **arg){
             sleep(1);
             continue;
         }
-
         int optval = 1;
         setsockopt(ssock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));   // 포트 옵션 변경
 
@@ -33,7 +32,8 @@ void makeConnection(rxData *rdata, char **arg){
             perror("connect");
             exit(1);        // 기조를 못정해서 return이나 continue나 exit중 아무거나 씀
         }
-        
+        printf("ssock: %d\n", ssock);
+
         rdata->sd = ssock;
         makeSvThread(rdata);
 

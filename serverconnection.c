@@ -51,12 +51,14 @@ void *server_connection(void *data) {
     int csock = rdata->sd, numbyte, save_size = 0;
     char readbuf[MAXDATASIZE]; 
     char savebuf[MAXDATASIZE * 2];
-
+    printf("connect start\n");
     while (1) {
+        printf("recv bef\n");
         if ((numbyte = recv(csock, &readbuf, sizeof(readbuf), 0)) == -1) {
             perror("recv error");
             exit(1);
         }
+        printf("%s\n", readbuf);
         memcpy(savebuf + save_size, readbuf, numbyte);
         save_size += numbyte;
         switch(savebuf[0]) {
@@ -64,34 +66,48 @@ void *server_connection(void *data) {
             // 일단 만약에 종료 로직 만들어지면 여기서 나가는 로직 짤듯
         case 1:
             while (save_size >= sizeof(recvPacket)) {    // id 확인 후 구조체 선정
-                recvPacket packet = *(recvPacket *)savebuf;
-                packet.size = ntohs(packet.size);
-                packet.CRC16 = ntohs(packet.CRC16);
+                recvPacket packet;
                 
-                //memcpy(&packet.id, &savebuf[0], 1);
-                //memcpy(&packet.size, &savebuf[1], 2);
-                //memcpy(&packet.size, &savebuf[3], 2);  이렇게 짜려했는데 
-                //memcpy(&packet.size, &savebuf[5], 2);  위처럼 해도 된다길래 일단 이렇게 만듬
+                memcpy(&packet.id, &savebuf[0], 1);
+                memcpy(&packet.size, &savebuf[1], 2);
+                memcpy(&packet.fb, &savebuf[3], 1); 
+                memcpy(&packet.lr, &savebuf[4], 1);  
+                memcpy(&packet.CRC16, &savebuf[5], 2);  
+
                 save_size -= sizeof(recvPacket);
                 memmove(savebuf, savebuf + sizeof(recvPacket), save_size);
                 // crc 체크해서 잘못된 패킷이면 continue
-                if (packet.size != 2 ||calCRCCCITT(&packet, sizeof(recvPacket)) != 0) {
+                
+                if (calCRCCCITT(&packet, sizeof(recvPacket)) == packet.CRC16) {
                     printf("CRC error");
                     continue;
                 }
 
+                packet.size = ntohs(packet.size);
+
+                //if (calCRCCCITT(&packet, sizeof(recvPacket)) != 0) {
+                //    printf("CRC error");
+                //    continue;
+                //}
+                printf("packet id : %d\n", packet.id);
+                printf("packet size : %d\n", packet.size);
+                printf("packet data1 : %d\n", packet.fb);
+                printf("packet data2 : %d\n", packet.lr);
+                printf("packet CRC : %d\n", packet.CRC16);
+
                 mtVal mttemp = { packet.fb, packet.lr };
-                sem_wait(&rdata->semid);
+                //sem_wait(&rdata->semid);
                 rdata->mtval = mttemp;
                 rdata->mtstate = 1;
-                sem_post(&rdata->semid);
+                //sem_post(&rdata->semid);
+                printf("end\n");
             }
             break;
         // 추가적인 데이터 패킷 정해지면 추가
         default:    // id가 정해진 값이 아닐때 한바이트씩 밀기
-            save_size--;
+            /*save_size--;
             memmove(savebuf, savebuf + 1, save_size);
-            break;
+            break;*/
         }
     }
     // 만약에 사용자에서 종료 로직? 들어오면 fd랑 정리하는거 로직 짜야함
