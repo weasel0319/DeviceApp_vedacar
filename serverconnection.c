@@ -76,8 +76,8 @@ void *server_connection(void *data) {
 
                 save_size -= sizeof(recvPacket);
                 memmove(savebuf, savebuf + sizeof(recvPacket), save_size);
-                // crc 체크해서 잘못된 패킷이면 continue
                 
+                // crc 체크해서 잘못된 패킷이면 continue
                 if (calCRCCCITT(&packet, sizeof(recvPacket)) == packet.CRC16) {
                     printf("CRC error");
                     continue;
@@ -85,10 +85,6 @@ void *server_connection(void *data) {
 
                 packet.size = ntohs(packet.size);
 
-                //if (calCRCCCITT(&packet, sizeof(recvPacket)) != 0) {
-                //    printf("CRC error");
-                //    continue;
-                //}
                 printf("packet id : %d\n", packet.id);
                 printf("packet size : %d\n", packet.size);
                 printf("packet data1 : %d\n", packet.fb);
