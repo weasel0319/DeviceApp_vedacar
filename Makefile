@@ -18,7 +18,7 @@ LDFLAGS += --sysroot=$(SYSROOT) \
            -Wl,-rpath-link=$(SYSROOT)/usr/lib/aarch64-linux-gnu \
            -Wl,-rpath-link=$(SYSROOT)/lib/aarch64-linux-gnu \
            -lgstrtspserver-1.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 \
-           -lpthread -lwiringPi
+           -lpthread
 
 INC = -I include
 
