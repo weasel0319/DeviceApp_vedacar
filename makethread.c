@@ -34,8 +34,8 @@ void makeSvThread(rxData *rdata) { // 연결 수립시 생성되는 스레드
     // 현재 tcp로 서버와 연결 스레드 생성
     pthread_t serverthread;
 
-    //pthread_create(&serverthread, NULL, server_connection, rdata);
-    //pthread_detach(serverthread);
+    pthread_create(&serverthread, NULL, server_connection, rdata);
+    pthread_detach(serverthread);
     // 01.14 rtsp 스레드 생성
     pthread_t rtsp_thread;
     
