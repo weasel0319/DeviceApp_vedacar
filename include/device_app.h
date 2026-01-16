@@ -13,8 +13,8 @@
 typedef struct{
     uint8_t     id;       // id   1 Bytes
     uint16_t    size;     // size 2 Bytes
-    uint8_t     fb;       // data 2 Bytes
-    uint8_t     lr;
+    int8_t     fb;       // data 2 Bytes
+    int8_t     lr;
     uint16_t    CRC16;     // CRC16 2 Bytes
     // 통신 프로토콜 정해지면 마저 작성
 }__attribute__((packed)) recvPacket;
@@ -37,6 +37,8 @@ void *MotorControl(void *);
 
 // 서버 스레드 함수
 void *server_connection(void *);
+// rtsp 서버 스레드 함수
+void *rtsp_connection(void *);
 
 // 기타 함수
 void makeThread(rxData *rdata);
