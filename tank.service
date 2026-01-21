@@ -1,0 +1,21 @@
+[Unit]
+Description=Raspberry Pi Tank Control App
+
+After=network.target
+
+StartLimitIntervalSec=0
+
+[Service]
+WorkingDirectory=/home/tank                
+
+ExecStart=/home/tank/device_app 192.168.137.1 25000
+
+Restart=always
+
+RestartSec=10s
+
+User=tank
+Group=tank
+
+[Install]
+WantedBy=multi-user.target

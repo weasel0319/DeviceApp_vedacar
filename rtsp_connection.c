@@ -23,7 +23,7 @@ void *rtsp_connection(void *) {
     // 라즈베리 파이 카메라 파이프라인 설정
     // v4l2src: 카메라 입력 / v4l2h264enc: HW 가속 인코딩 / rtph264pay: RTP 패킷화
     gst_rtsp_media_factory_set_launch(factory,
-    "( v4l2src device=/dev/video1 ! videoconvert ! "
+    "( v4l2src device=/dev/video0 ! videoconvert ! "
     "video/x-raw,format=I420,width=320,height=180,framerate=30/1 ! " // 핵심: format=I420 추가
     "x264enc tune=zerolatency speed-preset=ultrafast bitrate=300 ! "
     "h264parse ! rtph264pay name=pay0 pt=96 )");
