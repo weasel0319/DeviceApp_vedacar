@@ -55,11 +55,19 @@ void *server_connection(void *data) {
     while (1) {
         printf("recv bef\n");
         fflush(stdout);
-        if ((numbyte = recv(csock, &readbuf, sizeof(readbuf), 0)) == -1) {
-            perror("recv error");
+
+        numbyte = recv(csock, readbuf, sizeof(readbuf), 0);
+        if (numbyte < 0) {
+            perror("recv error (socket error)");
             fflush(stdout);
             exit(1);
+        } 
+        else if (numbyte == 0) {
+            printf("Connection closed by server (EOF).\n");
+            fflush(stdout);
+            exit(1); // 여기서 프로세스를 종료해야 systemd가 재시작해줌
         }
+        
         printf("%s\n", readbuf);
         memcpy(savebuf + save_size, readbuf, numbyte);
         save_size += numbyte;

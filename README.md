@@ -51,3 +51,14 @@ vi(m) / nano tank.service
 라즈베리 파이로 이동 후 setup.sh 실행
 journalctl -f -u tank.service
 를 통해 제대로 서비스 동작하고 있는지 확인   
+
+
+서비스 종료 및 앱 종료 명령어
+sudo systemctl stop tank.service
+sudo pkill -9 device_app
+ps -ef | grep device_app | grep -v grep 
+ps 수행시 안나옴
+
+재시작 명령어
+sudo systemctl daemon-reload
+sudo systemctl restart tank.service
