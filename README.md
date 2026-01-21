@@ -37,6 +37,8 @@ make
 수행 후 device_app이 생성되었는지 확인
 
 3. 디바이스 드라이버 쪽 파일도 진행 후  
-./device_app <ip 주소> 포트       
-로 실행
-
+./sendfile.sh 실행
+라즈베리 파이로 4개의 파일 전부 전송 되었는지 확인
+라즈베리 파이로 이동 후 setup.sh 실행
+journalctl -f -u tank.service
+를 통해 제대로 서비스 동작하고 있는지 확인   
