@@ -36,7 +36,7 @@ void *rtsp_connection(void *) {
     gst_rtsp_server_attach(server, NULL);
 
     printf("[RTSP] Server started at rtsp://0.0.0.0:8554/live\n");
-
+    fflush(stdout);
     // 루프 실행 (여기서 스레드가 대기하며 서버 역할을 수행함)
     g_main_loop_run(loop);
 

@@ -51,10 +51,13 @@ void *server_connection(void *data) {
     char readbuf[MAXDATASIZE]; 
     char savebuf[MAXDATASIZE * 2];
     printf("connect start\n");
+    fflush(stdout);
     while (1) {
         printf("recv bef\n");
+        fflush(stdout);
         if ((numbyte = recv(csock, &readbuf, sizeof(readbuf), 0)) == -1) {
             perror("recv error");
+            fflush(stdout);
             exit(1);
         }
         printf("%s\n", readbuf);
@@ -66,14 +69,18 @@ void *server_connection(void *data) {
         case 1:
             while (save_size >= sizeof(recvPacket)) {    // id 확인 후 구조체 선정
                 printf("Raw 7 Bytes: ");
+                fflush(stdout);
                 for(int i=0; i<7; i++) printf("%02x ", (unsigned char)savebuf[i]);
                 printf("\n");
+                fflush(stdout);
 
                 uint16_t calculatedCRC = calCRCCCITT_raw((unsigned char *)&savebuf[0], 5);
                 uint16_t receivedCRC = ((unsigned char)savebuf[5] << 8) | (unsigned char)savebuf[6];
                 printf("Calculated: %u, Received: %u\n", calculatedCRC, receivedCRC);
+                fflush(stdout);
                 if (calculatedCRC != receivedCRC) {
                     printf("CRC error\n");
+                    fflush(stdout);
                     save_size -= sizeof(recvPacket);
                     memmove(savebuf, savebuf + sizeof(recvPacket), save_size);
                     continue;
@@ -97,6 +104,7 @@ void *server_connection(void *data) {
                 printf("packet data1 : %d\n", packet.fb);
                 printf("packet data2 : %d\n", packet.lr);
                 printf("packet CRC : %d\n", packet.CRC16);
+                fflush(stdout);
 
                 mtVal mttemp = { packet.fb, packet.lr };
                 //sem_wait(&rdata->semid);
@@ -104,6 +112,7 @@ void *server_connection(void *data) {
                 rdata->mtstate = 1;
                 //sem_post(&rdata->semid);
                 printf("end\n");
+                fflush(stdout);
             }
             break;
         // 추가적인 데이터 패킷 정해지면 추가

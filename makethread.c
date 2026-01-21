@@ -17,14 +17,19 @@ void makeThread(rxData *rdata) { // 나중에 추가 기능 생기면 함수 호
     int fd = open("/dev/tankmotor", O_RDWR);
     if (fd < 0) {
         perror("open(/dev/tankmotor)");
+        fflush(stdout);
         fprintf(stderr, "Did you insmod tankmotor_drv.ko and create /dev/tankmotor?\n");
         exit(1);
     }
     rdata->mtfd = fd;
     pthread_t motorthread;
 
-    if (sem_init(&rdata->semid, 0, 1) != 0)
+    if (sem_init(&rdata->semid, 0, 1) != 0){
         perror("sem_init failed");
+        fflush(stdout);
+    }
+        
+        
 
     pthread_create(&motorthread, NULL, MotorControl, rdata);
     pthread_detach(motorthread); 
@@ -68,9 +73,11 @@ static void apply(int fd, mtVal tmp) {
     tmp.lr = clamp(tmp.lr, -100, 100);
     if (ioctl(fd, TANKMOTOR_IOCTL_SET, &tmp) < 0) {
         perror("ioctl(TANKMOTOR_IOCTL_SET)");
+        fflush(stdout);
         return;
     }
     printf("APPLY: m1=%d m2=%d\n", tmp.fb, tmp.lr);
+    fflush(stdout);
     return;
 }
 

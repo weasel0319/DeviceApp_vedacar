@@ -21,18 +21,21 @@ void makeConnection(rxData *rdata, char **arg){
         ssock = socket(AF_INET, SOCK_STREAM, 0);
         if (ssock == -1) {
             perror("socket error");
+            fflush(stdout);
             sleep(1);
             continue;
         }
         int optval = 1;
         setsockopt(ssock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));   // 포트 옵션 변경
-
+        printf("ssock: %d\n", ssock);
+        fflush(stdout);
         if (connect(ssock, (struct sockaddr *)&servaddr, sizeof(struct sockaddr)) == -1) {
             perror("connect");
+            fflush(stdout);
             exit(1);        // 기조를 못정해서 return이나 continue나 exit중 아무거나 씀
         }
-        printf("ssock: %d\n", ssock);
-
+        
+        
         rdata->sd = ssock;
         makeSvThread(rdata);
 

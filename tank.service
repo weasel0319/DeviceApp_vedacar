@@ -6,9 +6,7 @@ After=network.target
 StartLimitIntervalSec=0
 
 [Service]
-WorkingDirectory=/home/tank                
-
-ExecStart=/home/tank/device_app 192.168.137.1 25000
+WorkingDirectory=/home/tank
 
 Restart=always
 
@@ -17,5 +15,11 @@ RestartSec=10s
 User=tank
 Group=tank
 
+SupplementaryGroups=video
+
+ExecStartPre=/bin/sleep 10
+ExecStart=/home/tank/device_app 192.168.137.1 25000
+
 [Install]
 WantedBy=multi-user.target
+

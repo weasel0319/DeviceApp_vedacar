@@ -43,6 +43,9 @@ IP, PI 본인 환경에 맞게 수정
 vi(m) / nano wificonnect.sh
 SSID, SSIDPW 와이파이 환경에 맞게 수정
 
+vi(m) / nano tank.service
+/suseok 부분 본인 경로에 맞게 수정
+
 ./sendfile.sh 실행
 라즈베리 파이로 4개의 파일 전부 전송 되었는지 확인
 라즈베리 파이로 이동 후 setup.sh 실행

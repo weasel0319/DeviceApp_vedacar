@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     rxData *rdata = (rxData*)malloc(sizeof(rxData)); // 전체적인 제어 데이터 담당 구조체 생성
     memset(rdata, 0, sizeof(rxData));
     //makeSvThread(rdata); //rtsp 테스트용 혹시 몰라 남겨둠
-    makeThread(rdata);                               // 모터 스레드 생성(추가 기능 있을 시 여기만 변경 예정)
+    //makeThread(rdata);                               // 모터 스레드 생성(추가 기능 있을 시 여기만 변경 예정)
     makeConnection(rdata, argv);           // 통신 담당 함수 호출
     return 0;
 }
