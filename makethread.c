@@ -55,10 +55,6 @@ void* MotorControl(void *data) {    // 모터 제어 스레드
         if (rdata->mtstate == 1){
             tmp = rdata->mtval;
             rdata->mtstate = 0;
-            if (rdata->mtval.lr != 0) {
-                rdata->mtval.lr = 0;
-                rdata->mtstate = 1;
-            }
         }
         sem_post(&rdata->semid);
 
