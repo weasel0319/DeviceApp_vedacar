@@ -17,6 +17,7 @@ Group=tank
 
 SupplementaryGroups=video
 
+ExecStartPre=/usr/local/bin/tankmotor_load.sh
 ExecStartPre=/bin/sleep 10
 ExecStart=/home/tank/device_app 192.168.137.1 25000
 

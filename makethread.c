@@ -72,10 +72,8 @@ static void apply(int fd, mtVal tmp) {
     if (ioctl(fd, TANKMOTOR_IOCTL_SET, &tmp) < 0) {
         perror("ioctl(TANKMOTOR_IOCTL_SET)");
         fflush(stdout);
-        return;
+        exit(1);
     }
-    printf("APPLY: m1=%d m2=%d\n", tmp.fb, tmp.lr);
-    fflush(stdout);
     return;
 }
 

@@ -9,7 +9,7 @@
 #include "device_app.h"
 // udp로 후에 바꿀 예정, 현 시점에서는 tcp로 구현, 시간 애매해서 tcp로 할수도
 void makeConnection(rxData *rdata, char **arg){
-    int ssock;
+    int ssock = -1;
     struct sockaddr_in servaddr;
     
     memset(&servaddr, 0, sizeof(servaddr));
