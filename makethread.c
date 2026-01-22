@@ -29,8 +29,6 @@ void makeThread(rxData *rdata) { // 나중에 추가 기능 생기면 함수 호
         fflush(stdout);
     }
         
-        
-
     pthread_create(&motorthread, NULL, MotorControl, rdata);
     pthread_detach(motorthread); 
 }
@@ -57,11 +55,15 @@ void* MotorControl(void *data) {    // 모터 제어 스레드
         if (rdata->mtstate == 1){
             tmp = rdata->mtval;
             rdata->mtstate = 0;
+            if (rdata->mtval.lr != 0) {
+                rdata->mtval.lr = 0;
+                rdata->mtstate = 1;
+            }
         }
         sem_post(&rdata->semid);
 
         apply(fd, tmp);
-        usleep(10000);
+        usleep(100000);
         // 나중에 뭐 서버로부터 종료 명령 들어오면 break 하게끔 구현할지도? 일단 정상 종료시 멈추게끔
     }
     tmp.fb = 0; tmp.lr = 0;

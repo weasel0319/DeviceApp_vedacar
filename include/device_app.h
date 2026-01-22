@@ -20,8 +20,8 @@ typedef struct{
 }__attribute__((packed)) recvPacket;
 
 typedef struct{
-    int8_t fb;
-    int8_t lr;
+    int fb;
+    int lr;
 } mtVal;
 
 typedef struct{

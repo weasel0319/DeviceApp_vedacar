@@ -22,4 +22,3 @@ ExecStart=/home/tank/device_app 192.168.137.1 25000
 
 [Install]
 WantedBy=multi-user.target
-

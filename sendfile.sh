@@ -1,8 +1,8 @@
 #!/bin/bash
 # ./scp.sh filename    ping test, $? == 0    do scp
 
-IP=192.168.0.58
-PI=suseok
+IP=192.168.0.12 
+PI=tank
 
 ping -c 3 $IP >/dev/null 2>&1
 
